@@ -9,7 +9,15 @@ module counter(
     output [3:0] SD3
 );
 
+
     reg [3:0] values [0:3];
+    
+    initial begin
+        values[0] = 4'b0000; 
+        values[1] = 4'b0000; 
+        values[2] = 4'b0000; 
+        values[3] = 4'b0000; 
+    end
      
     always @(posedge cnt_clk) begin
         if (values[0] == 9) begin

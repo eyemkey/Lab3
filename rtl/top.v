@@ -6,11 +6,18 @@ module top (
     output [6:0] seg, 
     output [3:0] an
 );
-
+//    reg clk; 
+//    initial clk = 0; 
+//    always #5 clk = ~clk;     
 
     wire cnt_clk, disp_clk; 
     wire [3:0] SD0, SD1, SD2, SD3; 
     wire [6:0] seg0_ip, seg1_ip, seg2_ip, seg3_ip; 
+    
+//    initial begin
+//        #100000; 
+//        $finish; 
+//    end
 
     clk_mngr clk_mngr (
         .clk(clk), 
@@ -34,9 +41,19 @@ module top (
         .SD3(SD3), 
         
         .seg0_ip(seg0_ip), 
-        .seg0_ip(seg1_ip), 
-        .seg0_ip(seg2_ip), 
-        .seg0_ip(seg3_ip)
+        .seg1_ip(seg1_ip), 
+        .seg2_ip(seg2_ip), 
+        .seg3_ip(seg3_ip)
+    ); 
+    
+    seg_display7 display(
+        .disp_clk(disp_clk), 
+        .seg0_ip(seg0_ip), 
+        .seg1_ip(seg1_ip), 
+        .seg2_ip(seg2_ip), 
+        .seg3_ip(seg3_ip), 
+        .seg(seg), 
+        .an(an)
     ); 
     
 endmodule

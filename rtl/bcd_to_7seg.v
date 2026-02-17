@@ -5,15 +5,23 @@ module bcd_to_7seg(
     output [6:0] seg7
 );
     //takes in bcd, sets the associated segments to 0
+    reg [6:0] seg7_r; 
     
-    wire A, B, C, D; 
-    assign {A, B, C, D} = bcd; 
+    always @(*) begin
+        case (bcd)
+            0: seg7_r = 7'b100_0000;
+            1: seg7_r = 7'b111_1001; 
+            2: seg7_r = 7'b010_0100;
+            3: seg7_r = 7'b011_0000; 
+            4: seg7_r = 7'b001_1001;  
+            5: seg7_r = 7'b001_0010; 
+            6: seg7_r = 7'b000_0010; 
+            7: seg7_r = 7'b111_1000; 
+            8: seg7_r = 7'b000_0000; 
+            9: seg7_r = 7'b001_0000; 
+            default: seg7_r = 7'b000_0001; 
+        endcase
+    end
     
-    assign seg7[6] = (~A & B & ~C & ~D) | (~A & ~B & ~C & D);
-    assign seg7[5] = B & (C ^ D);
-    assign seg7[4] = (~A & ~B & C & ~D);
-    assign seg7[3] = B & ~(C & D) | (~A & ~B & ~C & D);
-    assign seg7[2] = D | (B & ~C);
-    assign seg7[1] = (C & D) | (~A & ~B & D) | (~A & ~B & C);
-    assign seg7[0] = (~A & ~B & ~C) | (B & C & D);
+    assign seg7 = seg7_r;
 endmodule

@@ -6,7 +6,8 @@ module clk_mngr(
     output cnt_clk //1Hz
 );
     
-    localparam NUM_100M = 100000000;
+    localparam NUM_100M = 50000000;
+//    localparam NUM_100M = 10000; 
     localparam NUM_2000 = 2000;
     
     
@@ -14,6 +15,13 @@ module clk_mngr(
     reg [10:0] disp_clk_counter; //Counts from 0 to 1999
     reg disp_clk_r; 
     reg cnt_clk_r; 
+    
+    initial begin
+        cnt_clk_counter = 0; 
+        disp_clk_counter = 0; 
+        disp_clk_r = 0; 
+        cnt_clk_r = 0; 
+    end
     
     always @(posedge clk) begin
         if(cnt_clk_counter == NUM_100M) begin
@@ -26,7 +34,8 @@ module clk_mngr(
             disp_clk_counter <= 1; 
             disp_clk_r <= ~disp_clk_r; 
         end
-        else disp_clk_counter <= disp_clk_counter + 1;        
+        else disp_clk_counter <= disp_clk_counter + 1;    
+        $display("cnt_clk_counter = %d | disp_clk_counter = %d", cnt_clk_counter, disp_clk_counter);     
     end
         
         
