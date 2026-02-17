@@ -2,43 +2,50 @@
 
 module counter(
     input cnt_clk, 
-    
+    input rst, 
     output [3:0] SD0, 
     output [3:0] SD1, 
     output [3:0] SD2, 
-    output [3:0] SD3
+    output [3:0] SD3, 
+    output reset_rst
 );
-
 
     reg [3:0] values [0:3];
     
     initial begin
         values[0] = 4'b0000; 
         values[1] = 4'b0000; 
-        values[2] = 4'b0000; 
-        values[3] = 4'b0000; 
+        values[2] = 4'b0000;
+        values[3] = 4'b0000;
     end
      
-    always @(posedge cnt_clk) begin
-        if (values[0] == 9) begin
-            values[0] <= 0;    
-            
-            if(values[1] == 5) begin
-                values[1] <= 0; 
+    always @(posedge cnt_clk or posedge rst) begin
+        if(rst) begin
+            values[0] <= 0; 
+            values[1] <= 0; 
+            values[2] <= 0; 
+            values[3] <= 0; 
+        end
+        else begin
+            if (values[0] == 9) begin
+                values[0] <= 0;    
                 
-                if(values[2] == 9) begin
-                    values[2] <= 0; 
+                if(values[1] == 5) begin
+                    values[1] <= 0; 
                     
-                    if(values[3] == 9) begin
-                        values[3] <= 0;
-                    end else values[3] <= values[3] + 1; 
+                    if(values[2] == 9) begin
+                        values[2] <= 0; 
+                        
+                        if(values[3] == 9) begin
+                            values[3] <= 0;
+                        end else values[3] <= values[3] + 1; 
+                        
+                    end else values[2] <= values[2] + 1; 
                     
-                end else values[2] <= values[2] + 1; 
+                end else values[1] <= values[1] + 1; 
                 
-            end else values[1] <= values[1] + 1; 
-            
-        end else values[0] <= values[0] + 1;
-        
+            end else values[0] <= values[0] + 1;
+        end
     end
     
     assign SD0 = values[0]; 

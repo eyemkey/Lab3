@@ -3,6 +3,7 @@
 
 module top (
     input clk, 
+    input btnL,
     output [6:0] seg, 
     output [3:0] an
 );
@@ -11,6 +12,8 @@ module top (
 //    always #5 clk = ~clk;     
 
     wire cnt_clk, disp_clk; 
+    reg rst;
+    reg [2:0] rst_buff; 
     wire [3:0] SD0, SD1, SD2, SD3; 
     wire [6:0] seg0_ip, seg1_ip, seg2_ip, seg3_ip; 
     
@@ -18,6 +21,16 @@ module top (
 //        #100000; 
 //        $finish; 
 //    end
+
+    always @(posedge clk) begin
+        rst_buff <= {btnL, rst_buff[2:1]};
+        if(rst && ~cnt_clk) begin
+        end
+        else begin
+            rst <= ~rst_buff[0] & rst_buff[1];
+        end
+    end
+    
 
     clk_mngr clk_mngr (
         .clk(clk), 
@@ -27,7 +40,8 @@ module top (
     
     
     counter counter (
-        .cnt_clk(cnt_clk), 
+        .cnt_clk(cnt_clk),
+        .rst(rst), 
         .SD0(SD0), 
         .SD1(SD1), 
         .SD2(SD2), 
