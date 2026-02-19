@@ -24,14 +24,14 @@ module convert_7seg(
     );     
         
     bcd_to_7seg convert2 (
-            .bcd(SD2), 
-            .seg7(seg2_ip)
+        .bcd(SD2), 
+        .seg7(seg2_ip)
     );     
             
     bcd_to_7seg convert3 (
-            .bcd(SD3), 
-            .seg7(seg3_ip)
-        );        
+        .bcd(SD3), 
+        .seg7(seg3_ip)
+    );        
     
 
 endmodule
