@@ -4,37 +4,49 @@
 module top (
     input clk, 
     input btnL,
-    input btnC,
+    input btnU,
     input adj, 
     input sel, 
     output [6:0] seg, 
-//    output [3:0] an
-    output [7:0] an // for Nexys A7
+    output [3:0] an, 
+    output reg led
+//    output [7:0] an // for Nexys A7
 ); 
 
-    wire cnt_en, disp_en, blink_en; 
+    wire cnt_en, disp_en, sample_en;
+    reg sample_en_d;
+    wire blink_clk; 
     reg rst_en, pause_en;
     reg [2:0] rst_en_buff, pause_en_buff; 
     wire [3:0] SD0, SD1, SD2, SD3; 
     wire [6:0] seg0_ip, seg1_ip, seg2_ip, seg3_ip; 
 
     always @(posedge clk) begin
-        rst_en_buff <= {btnL, rst_en_buff[2:1]};
-        rst_en <= ~rst_en_buff[0] & rst_en_buff[1];
+        if(sample_en) begin
+            rst_en_buff <= {btnL, rst_en_buff[2:1]};
+        end
+        rst_en <= ~rst_en_buff[0] & rst_en_buff[1] & sample_en_d;
     end
     
     always @(posedge clk) begin
-         pause_en_buff <= {btnC, pause_en_buff[2:1]}; 
-         pause_en <= ~pause_en_buff[0] & pause_en_buff[1];
+        if(sample_en) begin
+            pause_en_buff <= {btnU, pause_en_buff[2:1]};
+        end
+        pause_en <= ~pause_en_buff[0] & pause_en_buff[1] & sample_en_d;
+        led <= ~pause_en_buff[0] & pause_en_buff[1] & sample_en_d;
     end
     
+    always @(posedge clk) begin
+        sample_en_d <= sample_en;
+    end
 
     clk_mngr clk_mngr (
         .clk(clk), 
         .adj(adj),
         .cnt_en(cnt_en), 
-        .disp_en(disp_en)
-//        .blink_en(blink_en)
+        .disp_en(disp_en),
+        .sample_en(sample_en),
+        .blink_clk(blink_clk)
     );
     
     counter counter (
@@ -67,7 +79,7 @@ module top (
         .adj(adj), 
         .sel(sel),
         .disp_en(disp_en),
-//        .blink_en(blink_en),
+        .blink_clk(blink_clk),
         .seg0_ip(seg0_ip), 
         .seg1_ip(seg1_ip), 
         .seg2_ip(seg2_ip), 

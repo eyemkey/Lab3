@@ -26,7 +26,7 @@ module counter(
     end
      
     always @(posedge clk) begin
-        if(pause_en) begin
+        if(pause_en && !adj) begin
             pause <= ~pause; 
         end
         if(rst_en) begin
@@ -45,7 +45,7 @@ module counter(
                     if(values[2] == 9) begin
                         values[2] <= 0; 
                         
-                        if(values[3] == 9) begin
+                        if(values[3] == 5) begin
                             values[3] <= 0;
                         end else values[3] <= values[3] + 1; 
                         
@@ -62,7 +62,7 @@ module counter(
                     if(values[2] == 9) begin
                         values[2] <= 0; 
                         
-                        if(values[3] == 9) begin
+                        if(values[3] == 5) begin
                             values[3] <= 0; 
                         end else values[3] <= values[3] + 1; 
                     end else values[2] <= values[2] + 1;
