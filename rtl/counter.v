@@ -7,10 +7,10 @@ module counter(
     input rst_en,
     input cnt_en, 
     input pause_en, 
-    output [3:0] SD0, 
-    output [3:0] SD1, 
-    output [3:0] SD2, 
-    output [3:0] SD3
+    output [3:0] S0, 
+    output [3:0] S1, 
+    output [3:0] M0, 
+    output [3:0] M1
 );
 
     reg [3:0] values [0:3];
@@ -80,8 +80,8 @@ module counter(
         
     end
     
-    assign SD0 = values[0]; 
-    assign SD1 = values[1]; 
-    assign SD2 = values[2]; 
-    assign SD3 = values[3]; 
+    assign S0 = values[0]; 
+    assign S1 = values[1]; 
+    assign M0 = values[2]; 
+    assign M1 = values[3]; 
 endmodule

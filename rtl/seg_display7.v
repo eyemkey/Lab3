@@ -27,20 +27,16 @@ module seg_display7(
     end
     
     always @(posedge clk) begin
-        
-
-
-//        an <= 4'b1111;
             
         if(disp_en) begin
             seg <= 7'b1111111; 
-//            an <= 8'b11111111;
+//            an <= 8'b11111111; //NEXYS A7 ONLY
             an <= 4'b1111;  
             case (idx) 
                 0: begin
                     seg <= seg0_ip;
                     an <= 4'b1110;
-//                    an[3:0] <= 4'b1110; 
+//                    an[3:0] <= 4'b1110; //NEXYS A7 ONLY
                     
                     if(adj && sel && blink_clk) begin
                         an <= 4'b1111; 
@@ -50,7 +46,7 @@ module seg_display7(
                 1: begin
                     seg <= seg1_ip; 
                     an <= 4'b1101; 
-//                    an[3:0] <= 4'b1101; 
+//                    an[3:0] <= 4'b1101; //NEXYS A7 ONLY 
 
                     if(adj && sel && blink_clk) begin
                         an <= 4'b1111; 
@@ -60,7 +56,7 @@ module seg_display7(
                 2: begin
                     seg <= seg2_ip; 
                     an <= 4'b1011; 
-//                    an[3:0] <= 4'b1011; 
+//                    an[3:0] <= 4'b1011; //NEXYS A7 ONLY 
                     if(adj && !sel && blink_clk) begin
                         an <= 4'b1111; 
                     end
@@ -68,17 +64,15 @@ module seg_display7(
                 3: begin
                     seg <= seg3_ip; 
                     an <= 4'b0111;
-//                    an[3:0] <= 4'b0111;
+//                    an[3:0] <= 4'b0111; //NEXYS A7 ONLY
 
                     if(adj && !sel && blink_clk) begin
-                        an <= 4'b1111; 
+//                        an <= 4'b1111;
+                        an <= 8'b11111111;
                     end 
                 end
             endcase
             
-//            if(blink_clk && adj) begin
-//                an <= 8'b11111111; 
-//            end
             
             idx <= idx + 1; 
             

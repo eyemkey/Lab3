@@ -13,7 +13,7 @@ module clk_mngr(
     localparam NUM_200k = 200000;
     
     localparam NUM_50M = 50000000;
-    localparam NUM_22M = 25000000;
+    localparam NUM_22M = 22000000;
     localparam NUM_1M = 1000000;
     
     
