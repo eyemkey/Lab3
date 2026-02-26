@@ -9,7 +9,6 @@ module top (
     input sel, 
     output [6:0] seg, 
     output [3:0] an
-//    output [7:0] an // for Nexys A7
 ); 
 
     wire cnt_en, disp_en, sample_en;
@@ -77,7 +76,5 @@ module top (
         .seg(seg), 
         .an(an)
     ); 
-    
-//    assign an[7:4] = 4'b1111; //NEXYS A7 ONLY
-    
+        
 endmodule
